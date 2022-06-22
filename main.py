@@ -1,8 +1,12 @@
 #por aitageo
 
-from db import Connect
-from mysql.connector import Error
-import functions
+#import  curses #para poner o eliminar el cursor de la terminal
+#stdscr = curses.initscr()
+import time
+from db import Connect  
+from mysql.connector import Error  #modulo que da conexion a mysql o phpmyadmin
+import functions #se importa el archivo de funciones
+import os
 
 import sys
 import signal
@@ -12,6 +16,8 @@ init(convert = True)
 
 def main():
     continued = True
+    #curses.curs_set()
+    os.system("cls")
     while(continued):
         optionCorrecta = False
         while (not optionCorrecta):
@@ -39,24 +45,65 @@ def main():
             except BufferError:
                 print("Demasiados valores")    
                 
-       
+#funcion para salir presionando el 5 usando el modulo system       
 def exit():
     print(Fore.RED +"\n[*]Saliendo...\n")
-    sys.exit()    
+    time.sleep(1)
+    os.system("cls")
+    sys.exit()
+        
 
 
 
 def handler_functions(option):
     obconnect = Connect()
-    try:
-        products = obconnect.show_products()
-        if len(products)> 0:
-            pass
-    except Error as er:
-        print("No se encontro nada" + er)
-
-    if option == 2:
-        functions.list_products(products) 
+    if option == 1:
+        products = functions.get_data_products()
+        try:
+            obconnect.create_products(products)
+            
+        except:
+            print("Ha ocurrido un error")
+            
+            
+    elif option == 2:
+        try:
+            products = obconnect.show_products()
+            if len(products)> 0:
+                functions.list_products(products)
+            else:
+                print("No se encontro nada")    
+        except Error as er:
+            print("No se encontro nada" + er) 
+    
+    
+    elif option == 3:
+        try:
+            products = obconnect.update_products()
+            if len(products)> 0:
+                functions.list_products(products)
+            else:
+                print("No se encontro nada")    
+        except Error as er:
+            print("No se encontro nada" + er) 
+            
+            
+            
+    elif option == 4:
+        try:
+            products = obconnect.show_products()
+            if len(products)> 0:
+                functions.list_products(products)
+                codigo = functions.delete_data_products(products)
+                try:
+                    obconnect.delete_products(codigo,products)
+                except:
+                    print("No se pudo borrar")    
+            else:
+                print("No se encontro nada")    
+        except Error as er:
+            print("No se encontro nada" + er)                      
+                
 
 
 

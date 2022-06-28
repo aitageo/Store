@@ -16,15 +16,16 @@ def list_products(products):
         
         
 def get_data_products():
-    nombre = input("Ingrese el nombre: ")
+    nombre = ""
+    cantidad = 0
     cantidad_valid = False
-    while(cantidad_valid):
+    while not cantidad_valid:
         try:
+            nombre = input("Ingrese el nombre: ")
             cantidad = int(input("Ingresa la cantidad: "))
             cantidad_valid = True
         except ValueError:
             print("Valor incorrecto")
-    
     products = (nombre,cantidad)#tupla con los datos
     return products 
 
@@ -34,9 +35,6 @@ def get_data_products():
 def delete_data_products(products):
     try:
         codigo = int(input(Fore.RED + "Ingresa el codigo del producto a Eliminar: "))
-        for i in products:
-            if codigo == i:
-                products.pop(codigo)
         return codigo
     except ValueError:
         print("valor erroneo")        

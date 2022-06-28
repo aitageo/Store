@@ -97,6 +97,10 @@ def handler_functions(option):
                 codigo = functions.delete_data_products(products)
                 try:
                     obconnect.delete_products(codigo,products)
+                    time.sleep(1)
+                    products = obconnect.show_products()
+                    functions.list_products(products)
+                    
                 except:
                     print("No se pudo borrar")    
             else:

@@ -79,9 +79,13 @@ def handler_functions(option):
     
     elif option == 3:
         try:
-            products = obconnect.update_products()
+            products = obconnect.show_products()
             if len(products)> 0:
-                functions.list_products(products)
+                U_products = functions.update_data_products(products)
+                try:
+                    obconnect.update_products(U_products)
+                except:
+                    print("No se pudo Actualizar")    
             else:
                 print("No se encontro nada")    
         except Error as er:

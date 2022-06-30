@@ -47,14 +47,17 @@ class Connect:
                 
     def update_products(self,products):
         if self.conexion.is_connected():
+            nombre,cantidad,codigo = products
             try:
                 cursor = self.conexion.cursor()
-                updates = "UPDATE INTO productos(id,nombre,cantidad) values(id,'{0},'{1}}')"
-                cursor.execute(updates.format(products[0],products[1]))
+                updates = f"UPDATE productos SET nombre='{nombre}',cantidad='{cantidad}' WHERE id={codigo}"
+                cursor.execute(updates)
                 self.conexion.commit()#se confirman los datos
+                print(Fore.BLUE + "Datos Actualizados")
                 
             except Error as ex:
                 print(Fore.RED + f"No hay nada para mostrar  {ex}") 
+               
                 
                 
                 

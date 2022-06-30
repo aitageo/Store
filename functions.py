@@ -1,5 +1,6 @@
 #por aitageo
 
+import time
 import colorama 
 from  colorama import*
 init(convert= True)
@@ -31,7 +32,27 @@ def get_data_products():
 
 
 
+def update_data_products(products):
+    list_products(products)
+    nombre = ""
+    cantidad = 0
+    codigo = int(input("Ingresa el codigo del producto: "))
+    for i in products:
+        if i[0] == codigo:
+            optionRight = False
+            while not optionRight:
+                try:
+                    nombre = input("ingresa el nuevo nombre: ")
+                    cantidad =  int(input("ingresa la nueva cantidad: ")) 
+                    optionRight = True     
+                except ValueError:
+                    print("error")
+            products = (nombre,cantidad,codigo)
+            time.sleep(2)
+            return products
+           
 
+ 
 def delete_data_products(products):
     try:
         codigo = int(input(Fore.RED + "Ingresa el codigo del producto a Eliminar: "))
